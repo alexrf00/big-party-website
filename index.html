@@ -36,6 +36,20 @@ h2,h3,p{text-wrap:pretty;}
 @keyframes bpcloud{from{transform:translateX(-260px)}to{transform:translateX(1480px)}}
 @keyframes bphex{0%,100%{box-shadow:0 0 0 4px #15212e,0 0 22px 4px rgba(159,113,232,.45)}50%{box-shadow:0 0 0 4px #15212e,0 0 44px 13px rgba(159,113,232,.85)}}
 @keyframes bpcrack{0%,100%{opacity:.45}50%{opacity:1}}
+/* running-cowboy sprite (assets/cowboy.png: 8x4 frames, shown at 132px) */
+@keyframes bprun{from{background-position:0 -132px}to{background-position:-1056px -132px}}
+@keyframes bprunb{from{background-position:0 -264px}to{background-position:-1056px -264px}}
+@keyframes bprunacross{from{left:-16%}to{left:116%}}
+/* sliding ticker */
+@keyframes bpmarq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.bpmq:hover .bpmq-track{animation-play-state:paused;}
+@media(prefers-reduced-motion:reduce){
+  .bpmq-track,.bprun-sprite,.bprunner{animation:none !important;}
+  .bprunner{display:none !important;}
+}
+@media(max-width:560px){
+  .bprunner{display:none !important;}
+}
 @media(max-width:940px){
   .fx4{grid-template-columns:1fr 1fr !important;}
   .mg{grid-template-columns:1fr !important;}
@@ -90,6 +104,13 @@ h2,h3,p{text-wrap:pretty;}
         <img src="assets/hero.png" alt="Big Party — cowboys scramble across a sunlit frontier as a monster charges in" style="display:block;width:100%;">
         <div style="position:absolute;top:20px;left:20px;font-family:'VT323',monospace;font-size:19px;letter-spacing:2px;color:#22303c;background:#f4c542;border:3px solid #15212e;border-radius:10px;padding:5px 14px;box-shadow:0 4px 0 #b5891f;">EST. 1849 · ONLINE PARTY BRAWL</div>
         <div style="position:absolute;top:18px;right:-54px;transform:rotate(32deg);background:#e5563f;color:#fff;font-family:'Lilita One',cursive;font-size:18px;letter-spacing:2px;padding:9px 66px;border-top:3px solid #15212e;border-bottom:3px solid #15212e;box-shadow:0 5px 14px rgba(0,0,0,.35);">COMING SOON</div>
+        <!-- running outlaws: sprite-sheet run cycle (steps) + cross-screen loop -->
+        <div class="bprunner" style="position:absolute;bottom:-2px;left:-16%;width:132px;height:132px;z-index:3;pointer-events:none;animation:bprunacross 7s linear infinite;filter:drop-shadow(0 6px 5px rgba(0,0,0,.3));">
+          <div class="bprun-sprite" style="width:132px;height:132px;background-image:url(assets/cowboy.png);background-repeat:no-repeat;background-size:1056px 528px;background-position:0 -132px;animation:bprun .72s steps(8) infinite;"></div>
+        </div>
+        <div class="bprunner" style="position:absolute;bottom:-2px;left:-16%;width:132px;height:132px;z-index:4;pointer-events:none;transform:scale(.82);transform-origin:bottom center;animation:bprunacross 5.4s linear infinite;animation-delay:3.1s;filter:drop-shadow(0 6px 5px rgba(0,0,0,.3));">
+          <div class="bprun-sprite" style="width:132px;height:132px;background-image:url(assets/cowboy.png);background-repeat:no-repeat;background-size:1056px 528px;background-position:0 -264px;animation:bprunb .6s steps(8) infinite;"></div>
+        </div>
       </div>
       <div style="padding:30px 34px 34px;text-align:center;">
         <p style="max-width:760px;margin:0 auto 24px;font-family:'Pixelify Sans',sans-serif;font-weight:600;font-size:25px;line-height:1.4;color:#33404b;">Round up to <b style="color:#e5563f;">12 outlaws</b> for a bite-size western party brawl. Quick matches, dirty tricks, and one dusty crown &mdash; hosted straight from your machine.</p>
@@ -104,6 +125,26 @@ h2,h3,p{text-wrap:pretty;}
           <span style="font-family:'VT323',monospace;font-size:17px;color:#22303c;background:#ffd4cc;border:2px solid #15212e;border-radius:20px;padding:5px 14px;">COMING SOON</span>
         </div>
       </div>
+    </div>
+
+    <!-- TICKER -->
+    <div class="bpmq" style="position:relative;overflow:hidden;background:#15212e;border:4px solid #15212e;border-radius:16px;box-shadow:0 7px 0 #0d1620;">
+      <div class="bpmq-track" style="display:flex;align-items:center;width:max-content;padding:14px 0;animation:bpmarq 26s linear infinite;">
+        <span style="font-family:'Lilita One',cursive;font-size:19px;letter-spacing:1px;color:#fff7e8;padding:0 22px;white-space:nowrap;flex:0 0 auto;">CURSE TAG</span><span aria-hidden="true" style="color:#f2992e;font-size:15px;flex:0 0 auto;">✦</span>
+        <span style="font-family:'Lilita One',cursive;font-size:19px;letter-spacing:1px;color:#fff7e8;padding:0 22px;white-space:nowrap;flex:0 0 auto;">FLOOR COLLAPSE</span><span aria-hidden="true" style="color:#f4c542;font-size:15px;flex:0 0 auto;">✦</span>
+        <span style="font-family:'Lilita One',cursive;font-size:19px;letter-spacing:1px;color:#fff7e8;padding:0 22px;white-space:nowrap;flex:0 0 auto;">COMING SOON</span><span aria-hidden="true" style="color:#f2992e;font-size:15px;flex:0 0 auto;">✦</span>
+        <span style="font-family:'Lilita One',cursive;font-size:19px;letter-spacing:1px;color:#f4c542;padding:0 22px;white-space:nowrap;flex:0 0 auto;">WISHLIST NOW ON STEAM</span><span aria-hidden="true" style="color:#f2992e;font-size:15px;flex:0 0 auto;">✦</span>
+        <span style="font-family:'Lilita One',cursive;font-size:19px;letter-spacing:1px;color:#fff7e8;padding:0 22px;white-space:nowrap;flex:0 0 auto;">UP TO 12 OUTLAWS</span><span aria-hidden="true" style="color:#f4c542;font-size:15px;flex:0 0 auto;">✦</span>
+        <span style="font-family:'Lilita One',cursive;font-size:19px;letter-spacing:1px;color:#fff7e8;padding:0 22px;white-space:nowrap;flex:0 0 auto;">PEER-TO-PEER HOSTING</span><span aria-hidden="true" style="color:#f2992e;font-size:15px;flex:0 0 auto;">✦</span>
+        <span style="font-family:'Lilita One',cursive;font-size:19px;letter-spacing:1px;color:#fff7e8;padding:0 22px;white-space:nowrap;flex:0 0 auto;">CURSE TAG</span><span aria-hidden="true" style="color:#f2992e;font-size:15px;flex:0 0 auto;">✦</span>
+        <span style="font-family:'Lilita One',cursive;font-size:19px;letter-spacing:1px;color:#fff7e8;padding:0 22px;white-space:nowrap;flex:0 0 auto;">FLOOR COLLAPSE</span><span aria-hidden="true" style="color:#f4c542;font-size:15px;flex:0 0 auto;">✦</span>
+        <span style="font-family:'Lilita One',cursive;font-size:19px;letter-spacing:1px;color:#fff7e8;padding:0 22px;white-space:nowrap;flex:0 0 auto;">COMING SOON</span><span aria-hidden="true" style="color:#f2992e;font-size:15px;flex:0 0 auto;">✦</span>
+        <span style="font-family:'Lilita One',cursive;font-size:19px;letter-spacing:1px;color:#f4c542;padding:0 22px;white-space:nowrap;flex:0 0 auto;">WISHLIST NOW ON STEAM</span><span aria-hidden="true" style="color:#f2992e;font-size:15px;flex:0 0 auto;">✦</span>
+        <span style="font-family:'Lilita One',cursive;font-size:19px;letter-spacing:1px;color:#fff7e8;padding:0 22px;white-space:nowrap;flex:0 0 auto;">UP TO 12 OUTLAWS</span><span aria-hidden="true" style="color:#f4c542;font-size:15px;flex:0 0 auto;">✦</span>
+        <span style="font-family:'Lilita One',cursive;font-size:19px;letter-spacing:1px;color:#fff7e8;padding:0 22px;white-space:nowrap;flex:0 0 auto;">PEER-TO-PEER HOSTING</span><span aria-hidden="true" style="color:#f2992e;font-size:15px;flex:0 0 auto;">✦</span>
+      </div>
+      <div style="position:absolute;top:0;bottom:0;left:0;width:60px;pointer-events:none;background:linear-gradient(90deg,#15212e,rgba(21,33,46,0));"></div>
+      <div style="position:absolute;top:0;bottom:0;right:0;width:60px;pointer-events:none;background:linear-gradient(270deg,#15212e,rgba(21,33,46,0));"></div>
     </div>
 
     <!-- FEATURES -->
