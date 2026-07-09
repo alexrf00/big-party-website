@@ -7,11 +7,14 @@
 <meta name="description" content="Round up to 12 outlaws for a bite-size western party brawl. Quick matches, dirty tricks, and one dusty crown. Wishlist Big Party on Steam — coming soon.">
 <link rel="canonical" href="https://bigpartyweb.vercel.app/">
 <meta name="theme-color" content="#3aa0e0">
+<meta name="robots" content="index, follow, max-image-preview:large">
 
 <!-- Favicon / browser-tab icon (from the hero art) -->
+<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="256x256" href="/assets/favicon.png">
-<link rel="apple-touch-icon" href="/assets/favicon.png">
-<link rel="shortcut icon" href="/assets/favicon.png">
+<link rel="apple-touch-icon" sizes="256x256" href="/assets/favicon.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="manifest" href="/site.webmanifest">
 
 <!-- Open Graph — link previews (Discord, iMessage, Slack, Facebook…) & search -->
 <meta property="og:type" content="website">
@@ -93,6 +96,22 @@ h2,h3,p{text-wrap:pretty;}
   .navlinks{display:none !important;}
 }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "Big Party",
+  "url": "https://bigpartyweb.vercel.app/",
+  "description": "An online western party brawl. Round up to 12 outlaws for bite-size matches — quick rounds, dirty tricks, and one dusty crown.",
+  "image": "https://bigpartyweb.vercel.app/assets/og.jpg",
+  "genre": ["Party", "Multiplayer", "Casual"],
+  "gamePlatform": ["PC", "Steam"],
+  "playMode": "MultiPlayer",
+  "operatingSystem": "Windows",
+  "numberOfPlayers": { "@type": "QuantitativeValue", "minValue": 3, "maxValue": 12 },
+  "publisher": { "@type": "Organization", "name": "Big Party", "url": "https://bigpartyweb.vercel.app/" }
+}
+</script>
 </head>
 <body>
 <template id="__bundler_thumbnail">
