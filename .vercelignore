@@ -1,0 +1,7 @@
+# Raw / unused source assets kept locally but not deployed (keeps the bundle lean).
+# The site only uses the keyed werewolf.png, cowboy.png, hero.png and prop_*.png.
+assets/ChatGPT Image*
+assets/03_cursetag_*.png
+assets/04_floorcollapse_*.png
+assets/frame_*.png
+assets/Download.mp4

@@ -12,3 +12,11 @@ Welcome.md
 .DS_Store
 Thumbs.db
 node_modules/
+
+# Raw / unused source assets (large; kept locally, not committed).
+# werewolf.png (the keyed, in-use sprite sheet) IS committed.
+assets/ChatGPT Image*
+assets/03_cursetag_*.png
+assets/04_floorcollapse_*.png
+assets/frame_*.png
+assets/Download.mp4
