@@ -267,8 +267,8 @@ h2,h3,p{text-wrap:pretty;}
       <h2 style="margin:4px 0 26px;font-family:'Lilita One',cursive;font-size:44px;color:#22303c;letter-spacing:1px;">SEE IT IN ACTION</h2>
       <div style="position:relative;width:920px;max-width:100%;margin:0 auto;border:4px solid #15212e;border-radius:18px;box-shadow:0 10px 0 #15212e;overflow:hidden;">
         <div style="position:relative;padding-top:56.25%;background:#0a0e18;">
-          <video controls playsinline preload="none" poster="assets/trailer_poster.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#0a0e18;">
-            <source src="assets/trailer.mp4" type="video/mp4">
+          <video controls playsinline preload="none" poster="assets/trailer_poster.jpg" onloadedmetadata="if(this.currentTime<1){try{this.currentTime=1}catch(e){}}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#0a0e18;">
+            <source src="assets/trailer.mp4#t=1" type="video/mp4">
             Your browser can't play embedded video &mdash; <a href="assets/trailer.mp4" style="color:#f2992e;">watch the trailer here</a>.
           </video>
         </div>
