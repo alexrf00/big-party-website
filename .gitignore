@@ -1,0 +1,14 @@
+# Obsidian vault / editor scaffolding (not part of the site)
+.obsidian/
+Welcome.md
+
+# Claude Code
+.claude/
+
+# Vercel
+.vercel/
+
+# OS / misc
+.DS_Store
+Thumbs.db
+node_modules/
