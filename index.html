@@ -355,11 +355,11 @@ h2,h3,p{text-wrap:pretty;}
         <div style="font-family:'VT323',monospace;font-size:20px;letter-spacing:3px;color:#eaf6fd;">DON'T MISS THE STAMPEDE</div>
         <h2 style="margin:4px 0 10px;font-family:'Lilita One',cursive;font-size:46px;color:#fff;letter-spacing:1px;text-shadow:0 4px 0 #15212e;">GET THE FIRST HOLLER</h2>
         <p style="margin:0 0 24px;font-family:'Pixelify Sans',sans-serif;font-size:18px;line-height:1.5;color:#eaf6fd;font-weight:600;">Drop your email and we'll wire you the second Big Party hits Steam &mdash; plus playtest invites and behind-the-scenes from the ranch.</p>
-        <form onsubmit="return false;" style="display:flex;gap:12px;max-width:520px;margin:0 auto;">
-          <input type="email" placeholder="outlaw@frontier.gg" aria-label="Email address" style="flex:1;font-family:'VT323',monospace;font-size:22px;color:#22303c;background:#fff7e8;border:4px solid #15212e;border-radius:14px;padding:12px 18px;outline:none;">
+        <form id="bpform" onsubmit="return bpSubscribe(event)" style="display:flex;gap:12px;max-width:520px;margin:0 auto;">
+          <input id="bpemail" type="email" required autocomplete="email" placeholder="outlaw@frontier.gg" aria-label="Email address" style="flex:1;font-family:'VT323',monospace;font-size:22px;color:#22303c;background:#fff7e8;border:4px solid #15212e;border-radius:14px;padding:12px 18px;outline:none;">
           <button class="bpbtn" type="submit" style="font-family:'Lilita One',cursive;font-size:22px;color:#fff;background:#f2992e;border:4px solid #15212e;border-radius:14px;padding:12px 26px 14px;cursor:pointer;box-shadow:0 7px 0 #b5661a;white-space:nowrap;">SIGN ME UP</button>
         </form>
-        <div style="margin-top:14px;font-family:'VT323',monospace;font-size:17px;color:#d6ecf8;">No spam. Just gold. Unsubscribe anytime.</div>
+        <div id="bpstatus" style="margin-top:14px;font-family:'VT323',monospace;font-size:17px;color:#d6ecf8;">No spam. Just gold. Unsubscribe anytime.</div>
       </div>
     </div>
 
@@ -422,5 +422,21 @@ h2,h3,p{text-wrap:pretty;}
 
   </div>
 </div>
+<script>
+function bpSubscribe(e){e.preventDefault();
+  var f=document.getElementById('bpform'),i=document.getElementById('bpemail'),
+      b=f.querySelector('button[type=submit]'),s=document.getElementById('bpstatus'),
+      email=(i.value||'').trim();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){s.style.color='#ffd4cc';s.textContent='Enter a valid email, partner.';return false;}
+  var old=b.textContent;b.disabled=true;b.textContent='SENDING…';s.style.color='#d6ecf8';s.textContent='';
+  fetch('/api/subscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:email})})
+    .then(function(r){return r.json().catch(function(){return {ok:r.ok};});})
+    .then(function(d){
+      if(d&&d.ok){f.style.display='none';s.style.color='#d9f0c7';s.textContent="You're on the list — we'll holler the second Big Party hits Steam. 🤠";}
+      else{s.style.color='#ffd4cc';s.textContent="Somethin' jammed on our end — give it another shot.";b.disabled=false;b.textContent=old;}
+    })
+    .catch(function(){s.style.color='#ffd4cc';s.textContent="Couldn't reach the ranch — check your connection.";b.disabled=false;b.textContent=old;});
+  return false;}
+</script>
 </body>
 </html>
