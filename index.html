@@ -36,10 +36,15 @@ h2,h3,p{text-wrap:pretty;}
 @keyframes bpcloud{from{transform:translateX(-260px)}to{transform:translateX(1480px)}}
 @keyframes bphex{0%,100%{box-shadow:0 0 0 4px #15212e,0 0 22px 4px rgba(159,113,232,.45)}50%{box-shadow:0 0 0 4px #15212e,0 0 44px 13px rgba(159,113,232,.85)}}
 @keyframes bpcrack{0%,100%{opacity:.45}50%{opacity:1}}
-/* runners: a right->left chase. Left-facing sprite rows (cowboy row1 y-132, werewolf row1 y-160). */
-@keyframes bprunL{from{background-position:0 -132px}to{background-position:-1056px -132px}}
-@keyframes bpwolfrunL{from{background-position:0 -160px}to{background-position:-640px -160px}}
-@keyframes bpcrossLeft{from{left:112%}to{left:-24%}}
+/* two-phase chase loop (15s master cycle):
+   Phase A (0->~33%): 1 human + werewolf run LEFT->RIGHT (right-facing rows), then park off-right.
+   Phase B (50%->83%): werewolf + 4 humans run RIGHT->LEFT (left-facing rows), parked off-right until then. */
+@keyframes bprunL{from{background-position:0 -132px}to{background-position:-1056px -132px}}   /* cowboy, left-facing (row1) */
+@keyframes bprunR{from{background-position:0 -264px}to{background-position:-1056px -264px}}   /* cowboy, right-facing (row2) */
+@keyframes bpwolfrunL{from{background-position:0 -160px}to{background-position:-640px -160px}} /* werewolf, left-facing (row1) */
+@keyframes bpwolfrunR{from{background-position:0 -320px}to{background-position:-640px -320px}} /* werewolf, right-facing (row2) */
+@keyframes bpcrossA{0%{left:-22%}33%{left:118%}100%{left:118%}}
+@keyframes bpcrossB{0%{left:118%}50%{left:118%}83%{left:-22%}100%{left:-22%}}
 /* sliding ticker */
 @keyframes bpmarq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .bpmq:hover .bpmq-track{animation-play-state:paused;}
@@ -104,25 +109,30 @@ h2,h3,p{text-wrap:pretty;}
         <img src="assets/hero.png" alt="Big Party — cowboys scramble across a sunlit frontier as a monster charges in" style="display:block;width:100%;">
         <div style="position:absolute;top:20px;left:20px;font-family:'VT323',monospace;font-size:19px;letter-spacing:2px;color:#22303c;background:#f4c542;border:3px solid #15212e;border-radius:10px;padding:5px 14px;box-shadow:0 4px 0 #b5891f;">EST. 1849 · ONLINE PARTY BRAWL</div>
         <div style="position:absolute;top:18px;right:-54px;transform:rotate(32deg);background:#e5563f;color:#fff;font-family:'Lilita One',cursive;font-size:18px;letter-spacing:2px;padding:9px 66px;border-top:3px solid #15212e;border-bottom:3px solid #15212e;box-shadow:0 5px 14px rgba(0,0,0,.35);">COMING SOON</div>
-        <!-- the chase: werewolf flees left, a posse of outlaws after it. Same duration for all so the
-             formation is stable each loop; staggered negative delays string them out (wolf leads). -->
-        <div class="bprunner bpwolf" style="position:absolute;bottom:-8px;left:112%;width:160px;height:160px;z-index:3;pointer-events:none;animation:bpcrossLeft 8.5s linear infinite;animation-delay:-3.6s;filter:drop-shadow(0 7px 6px rgba(0,0,0,.34));">
+        <!-- Two-phase chase loop (bpcrossA / bpcrossB, shared 15s cycle). Each character crosses during
+             its phase and sits parked off-screen during the other; negative delays stagger the posse. -->
+        <!-- Phase A: lone outlaw sprints RIGHT, werewolf chasing (right-facing rows) -->
+        <div class="bprunner" style="position:absolute;bottom:-2px;left:-22%;width:132px;height:132px;z-index:8;pointer-events:none;animation:bpcrossA 15s linear infinite;animation-delay:-.7s;filter:drop-shadow(0 6px 5px rgba(0,0,0,.3));">
+          <div class="bprun-sprite" style="width:132px;height:132px;background-image:url(assets/cowboy.png);background-repeat:no-repeat;background-size:1056px 528px;background-position:0 -264px;animation:bprunR .70s steps(8) infinite;"></div>
+        </div>
+        <div class="bprunner bpwolf" style="position:absolute;bottom:-8px;left:-22%;width:160px;height:160px;z-index:6;pointer-events:none;animation:bpcrossA 15s linear infinite;filter:drop-shadow(0 7px 6px rgba(0,0,0,.34));">
+          <div class="bprun-sprite" style="width:160px;height:160px;background-image:url(assets/werewolf.png);background-repeat:no-repeat;background-size:640px 640px;background-position:0 -320px;animation:bpwolfrunR .46s steps(4) infinite;"></div>
+        </div>
+        <!-- Phase B: werewolf flees LEFT, a posse of 4 outlaws chasing (left-facing rows) -->
+        <div class="bprunner bpwolf" style="position:absolute;bottom:-8px;left:118%;width:160px;height:160px;z-index:6;pointer-events:none;animation:bpcrossB 15s linear infinite;animation-delay:-1.4s;filter:drop-shadow(0 7px 6px rgba(0,0,0,.34));">
           <div class="bprun-sprite" style="width:160px;height:160px;background-image:url(assets/werewolf.png);background-repeat:no-repeat;background-size:640px 640px;background-position:0 -160px;animation:bpwolfrunL .46s steps(4) infinite;"></div>
         </div>
-        <div class="bprunner" style="position:absolute;bottom:-2px;left:112%;width:132px;height:132px;z-index:8;pointer-events:none;animation:bpcrossLeft 8.5s linear infinite;animation-delay:-3s;filter:drop-shadow(0 6px 5px rgba(0,0,0,.3));">
+        <div class="bprunner" style="position:absolute;bottom:-2px;left:118%;width:132px;height:132px;z-index:9;pointer-events:none;animation:bpcrossB 15s linear infinite;animation-delay:-1.05s;filter:drop-shadow(0 6px 5px rgba(0,0,0,.3));">
           <div class="bprun-sprite" style="width:132px;height:132px;background-image:url(assets/cowboy.png);background-repeat:no-repeat;background-size:1056px 528px;background-position:0 -132px;animation:bprunL .70s steps(8) infinite;animation-delay:-.1s;"></div>
         </div>
-        <div class="bprunner" style="position:absolute;bottom:9px;left:112%;width:132px;height:132px;z-index:5;pointer-events:none;transform:scale(.88);transform-origin:bottom center;animation:bpcrossLeft 8.5s linear infinite;animation-delay:-2.5s;filter:drop-shadow(0 6px 5px rgba(0,0,0,.3));">
-          <div class="bprun-sprite" style="width:132px;height:132px;background-image:url(assets/cowboy.png);background-repeat:no-repeat;background-size:1056px 528px;background-position:0 -132px;animation:bprunL .74s steps(8) infinite;animation-delay:-.28s;"></div>
+        <div class="bprunner" style="position:absolute;bottom:9px;left:118%;width:132px;height:132px;z-index:5;pointer-events:none;transform:scale(.88);transform-origin:bottom center;animation:bpcrossB 15s linear infinite;animation-delay:-.7s;filter:drop-shadow(0 6px 5px rgba(0,0,0,.3));">
+          <div class="bprun-sprite" style="width:132px;height:132px;background-image:url(assets/cowboy.png);background-repeat:no-repeat;background-size:1056px 528px;background-position:0 -132px;animation:bprunL .74s steps(8) infinite;animation-delay:-.3s;"></div>
         </div>
-        <div class="bprunner" style="position:absolute;bottom:-4px;left:112%;width:132px;height:132px;z-index:9;pointer-events:none;transform:scale(1.05);transform-origin:bottom center;animation:bpcrossLeft 8.5s linear infinite;animation-delay:-2s;filter:drop-shadow(0 6px 5px rgba(0,0,0,.3));">
+        <div class="bprunner" style="position:absolute;bottom:-4px;left:118%;width:132px;height:132px;z-index:8;pointer-events:none;transform:scale(1.04);transform-origin:bottom center;animation:bpcrossB 15s linear infinite;animation-delay:-.35s;filter:drop-shadow(0 6px 5px rgba(0,0,0,.3));">
           <div class="bprun-sprite" style="width:132px;height:132px;background-image:url(assets/cowboy.png);background-repeat:no-repeat;background-size:1056px 528px;background-position:0 -132px;animation:bprunL .68s steps(8) infinite;animation-delay:-.45s;"></div>
         </div>
-        <div class="bprunner" style="position:absolute;bottom:13px;left:112%;width:132px;height:132px;z-index:4;pointer-events:none;transform:scale(.82);transform-origin:bottom center;animation:bpcrossLeft 8.5s linear infinite;animation-delay:-1.5s;filter:drop-shadow(0 6px 5px rgba(0,0,0,.3));">
+        <div class="bprunner" style="position:absolute;bottom:12px;left:118%;width:132px;height:132px;z-index:4;pointer-events:none;transform:scale(.84);transform-origin:bottom center;animation:bpcrossB 15s linear infinite;filter:drop-shadow(0 6px 5px rgba(0,0,0,.3));">
           <div class="bprun-sprite" style="width:132px;height:132px;background-image:url(assets/cowboy.png);background-repeat:no-repeat;background-size:1056px 528px;background-position:0 -132px;animation:bprunL .78s steps(8) infinite;animation-delay:-.6s;"></div>
-        </div>
-        <div class="bprunner" style="position:absolute;bottom:3px;left:112%;width:132px;height:132px;z-index:7;pointer-events:none;transform:scale(.95);transform-origin:bottom center;animation:bpcrossLeft 8.5s linear infinite;animation-delay:-1s;filter:drop-shadow(0 6px 5px rgba(0,0,0,.3));">
-          <div class="bprun-sprite" style="width:132px;height:132px;background-image:url(assets/cowboy.png);background-repeat:no-repeat;background-size:1056px 528px;background-position:0 -132px;animation:bprunL .72s steps(8) infinite;animation-delay:-.75s;"></div>
         </div>
       </div>
       <div style="padding:30px 34px 34px;text-align:center;">
